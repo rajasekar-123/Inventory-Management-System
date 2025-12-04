@@ -37,12 +37,11 @@ public class Product {
     @Min(value = 0, message = "Tax rate cannot be negative")
     private Integer taxRate;
 
-    // initial stock (optional), used only at creation
+  
     @NotNull(message = "Initial quantity is required")
     @Min(value = 0, message = "Initial quantity cannot be negative")
     private Integer initialStock;
 
-    // Current stock quantity (single source of truth)
     @NotNull
     @Min(value = 0)
     private Integer currentStock;
@@ -63,7 +62,7 @@ public class Product {
     @JsonManagedReference
     private List<Transaction> transactions;
 
-    // Getters Setters
+
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
