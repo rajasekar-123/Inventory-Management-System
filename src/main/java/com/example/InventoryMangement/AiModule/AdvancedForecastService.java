@@ -42,7 +42,7 @@ public class AdvancedForecastService {
 
         int currentStock = product.getCurrentStock() == null ? 0 : product.getCurrentStock();
 
-        // Build history details for AI prompt
+    
         StringBuilder sb = new StringBuilder();
         history.forEach(tx ->
                 sb.append(tx.getDate()).append(": ").append(tx.getQuantity()).append(" units\n")
@@ -77,15 +77,9 @@ SALES HISTORY:
 CURRENT STOCK: %d
 """.formatted(sb.toString(), currentStock);
 
-
-
-
-
-        // AI TEXT output
         String aiResponse = ollama.ask(prompt);
 
-        // -------- Parse 7-day forecast ----------
-        // -------- Parse 7-day forecast (Flexible) ----------
+    
         List<PredictedPoint> points = new ArrayList<>();
         LocalDate currentDate = LocalDate.now().plusDays(1);
 
@@ -97,16 +91,16 @@ CURRENT STOCK: %d
             String trimmed = line.trim();
             if (trimmed.isEmpty()) continue;
 
-            // Remove dash, bullets, or extra spaces
+        
             trimmed = trimmed.replaceFirst("^[\\-•]+\\s*", "");
 
-            // Match formats: DAY1, Day1, Day 1, etc.
+        
             if (!trimmed.toUpperCase().matches("^DAY\\s*\\d+\\s*:.*")) {
                 continue;
             }
 
             try {
-                // Extract day number and units
+                
                 Pattern p = Pattern.compile("DAY\\s*(\\d+)\\s*:\\s*([0-9]+)");
                 Matcher m = p.matcher(trimmed.toUpperCase());
 
@@ -115,7 +109,7 @@ CURRENT STOCK: %d
                 int dayNum = Integer.parseInt(m.group(1));
                 int units = Integer.parseInt(m.group(2));
 
-                // Add date + units
+                
                 LocalDate date = LocalDate.now().plusDays(dayNum - 1);
 
                 points.add(new PredictedPoint(date.toString(), units));
