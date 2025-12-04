@@ -11,6 +11,6 @@ public class ForecastResponseDTO {
         this.forecast = forecast;
     }
 
-    // Getters & setters
+
 }
 
